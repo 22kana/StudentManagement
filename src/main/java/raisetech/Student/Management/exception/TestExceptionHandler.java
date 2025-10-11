@@ -12,4 +12,5 @@ public class TestExceptionHandler {
   public ResponseEntity<String> handleTestException(TestException ex){
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
   }
+
 }
