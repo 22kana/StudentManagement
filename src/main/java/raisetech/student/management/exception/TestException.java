@@ -2,7 +2,6 @@ package raisetech.student.management.exception;
 
 public class TestException extends Exception{
 
-
   public TestException() {
     super();
   }
@@ -18,4 +17,5 @@ public class TestException extends Exception{
   public TestException(Throwable cause) {
     super(cause);
   }
+
 }
