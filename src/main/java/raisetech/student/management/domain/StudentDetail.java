@@ -1,4 +1,4 @@
-package raisetech.Student.Management.domain;
+package raisetech.student.management.domain;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import raisetech.Student.Management.data.Student;
-import raisetech.Student.Management.data.StudentCourse;
+import raisetech.student.management.data.Student;
+import raisetech.student.management.data.StudentCourse;
 
 @Getter
 @Setter

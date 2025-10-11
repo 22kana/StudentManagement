@@ -1,4 +1,4 @@
-package raisetech.Student.Management.exception;
+package raisetech.student.management.exception;
 
 public class TestException extends Exception{
 

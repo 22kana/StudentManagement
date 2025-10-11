@@ -1,0 +1,13 @@
+[33ma15c44d400d3f74ddf8ab97c7f8ba2c39c0b1c1c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfeature/fix-add-exception-handling[m[33m)[m 例外処理の修正
+src/main/java/raisetech/student/management/Application.java
+src/main/java/raisetech/student/management/ServletInitializer.java
+src/main/java/raisetech/student/management/controller/StudentController.java
+src/main/java/raisetech/student/management/controller/converter/StudentConverter.java
+src/main/java/raisetech/student/management/data/Student.java
+src/main/java/raisetech/student/management/data/StudentCourse.java
+src/main/java/raisetech/student/management/domain/StudentDetail.java
+src/main/java/raisetech/student/management/exception/TestException.java
+src/main/java/raisetech/student/management/exception/TestExceptionHandler.java
+src/main/java/raisetech/student/management/repository/StudentRepository.java
+src/main/java/raisetech/student/management/service/StudentService.java
+src/test/java/raisetech/student/management/ApplicationTests.java

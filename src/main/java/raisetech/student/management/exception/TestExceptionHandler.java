@@ -1,4 +1,4 @@
-package raisetech.Student.Management.exception;
+package raisetech.student.management.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

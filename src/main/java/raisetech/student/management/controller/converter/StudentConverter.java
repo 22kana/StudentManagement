@@ -1,12 +1,12 @@
-package raisetech.Student.Management.controller.converter;
+package raisetech.student.management.controller.converter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import raisetech.Student.Management.data.Student;
-import raisetech.Student.Management.data.StudentCourse;
-import raisetech.Student.Management.domain.StudentDetail;
+import raisetech.student.management.data.Student;
+import raisetech.student.management.data.StudentCourse;
+import raisetech.student.management.domain.StudentDetail;
 
 //受講生と受講生コース情報を受講生詳細に変換するコンバーター
 @Component
