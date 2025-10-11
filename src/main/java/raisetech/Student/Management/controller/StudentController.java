@@ -77,6 +77,6 @@ public class StudentController {
   //例外処理用のメソッド
   @GetMapping("/testException")
   public List<StudentDetail> getException() throws Exception {
-    throw new TestException("エラーが発生しました。");
+    throw new TestException("テストエラーが発生しました。");
   }
 }
