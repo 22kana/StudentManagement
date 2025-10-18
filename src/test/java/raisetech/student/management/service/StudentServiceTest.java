@@ -70,6 +70,7 @@ class StudentServiceTest {
 
   @Test
   void 受講生詳細の登録が適切に行われること(){
+
     Student student = new Student();
     student.setName("田中太郎");
     StudentCourse studentCourse = new StudentCourse();
@@ -86,6 +87,7 @@ class StudentServiceTest {
 
   @Test
   void 受講生詳細の更新が適切に行われること(){
+
     Student student = new Student();
     student.setId("1");
     student.setName("田中太郎");
