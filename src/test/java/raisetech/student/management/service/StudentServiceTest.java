@@ -1,7 +1,8 @@
 package raisetech.student.management.service;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,8 +13,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import raisetech.student.management.controller.converter.StudentConverter;
 import raisetech.student.management.data.Student;
@@ -33,7 +34,7 @@ class StudentServiceTest {
   private StudentService sut;
 
   @BeforeEach
-  void Before(){
+  void before(){
     sut = new StudentService(repository,converter);
   }
 
@@ -64,6 +65,9 @@ class StudentServiceTest {
 
     StudentDetail actual = sut.searchStudent(id);
 
+    Assertions.assertEquals(student, actual.getStudent());
+    Assertions.assertEquals(studentCourseList, actual.getStudentCourseList());
+
     verify(repository,times(1)).searchStudent(id);
     verify(repository,times(1)).searchStudentCourse(id);
   }
@@ -72,6 +76,7 @@ class StudentServiceTest {
   void 受講生詳細の登録が適切に行われること(){
 
     Student student = new Student();
+    student.setId("1");
     student.setName("田中太郎");
     StudentCourse studentCourse = new StudentCourse();
     studentCourse.setCourseName("Javaコース");
@@ -82,7 +87,15 @@ class StudentServiceTest {
     StudentDetail actual = sut.registerStudent(studentDetail1);
 
     verify(repository,times(1)).registerStudent(student);
-    verify(repository,times(1)).registerStudentCourse(any());
+
+    ArgumentCaptor<StudentCourse> studentCourseCaptor = ArgumentCaptor.forClass(StudentCourse.class);
+    verify(repository, times(1)).registerStudentCourse(studentCourseCaptor.capture());
+
+    StudentCourse studentCourseCaptured = studentCourseCaptor.getValue();
+    Assertions.assertEquals("Javaコース", studentCourseCaptured.getCourseName());
+    Assertions.assertEquals(student.getId(), studentCourseCaptured.getStudentId());
+    Assertions.assertNotNull(studentCourseCaptured.getCourseStartAt());
+    Assertions.assertNotNull(studentCourseCaptured.getCourseEndAt());
   }
 
   @Test
@@ -100,6 +113,31 @@ class StudentServiceTest {
     sut.updateStudent(studentDetail);
 
     verify(repository,times(1)).updateStudent(student);
-    verify(repository,times(1)).updateStudentCourse(any());
+
+    ArgumentCaptor<StudentCourse> studentCourseCaptor = ArgumentCaptor.forClass(StudentCourse.class);
+    verify(repository, times(1)).updateStudentCourse(studentCourseCaptor.capture());
+
+    StudentCourse studentCourseCaptured = studentCourseCaptor.getValue();
+    Assertions.assertEquals("AWSコース", studentCourseCaptured.getCourseName());
+  }
+
+  @Test
+  void 受講生更新時にリポジトリで例外が発生した場合_例外がスローされること(){
+
+    Student student = new Student();
+    student.setId("1");
+    student.setName("田中太郎");
+    StudentCourse studentCourse = new StudentCourse();
+    studentCourse.setCourseName("AWSコース");
+    List<StudentCourse> studentCourseList = new ArrayList<>();
+    studentCourseList.add(studentCourse);
+    StudentDetail studentDetail = new StudentDetail(student, studentCourseList);
+
+    doThrow(new RuntimeException("DBエラー"))
+        .when(repository).updateStudent(student);
+
+    Assertions.assertThrows(RuntimeException.class, () -> sut.updateStudent(studentDetail));
+
+    verify(repository, never()).updateStudentCourse(any());
   }
 }
