@@ -72,5 +72,4 @@ public class StudentController {
   public List<StudentDetail> getException() throws Exception {
     throw new TestException("テストエラーが発生しました。");
   }
-
 }
