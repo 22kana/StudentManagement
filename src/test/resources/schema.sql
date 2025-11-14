@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS students
     deleted boolean
 );
 
+
 CREATE TABLE IF NOT EXISTS students_courses
 (
     id INT PRIMARY KEY AUTO_INCREMENT,

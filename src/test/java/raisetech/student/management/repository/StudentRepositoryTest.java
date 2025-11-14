@@ -38,10 +38,14 @@ class StudentRepositoryTest {
     expected.setAge(30);
     expected.setSex("男");
 
-    assertEquals(expected.getId(), actual.getId());
-    assertEquals(expected.getName(), expected.getName());
-    assertEquals(expected.getKanaName(), expected.getKanaName());
-    assertEquals(expected.getEmail(), expected.getEmail());
+    assertThat(actual.getId()).isEqualTo(expected.getId());
+    assertThat(actual.getName()).isEqualTo(expected.getName());
+    assertThat(actual.getKanaName()).isEqualTo(expected.getKanaName());
+    assertThat(actual.getNickname()).isEqualTo(expected.getNickname());
+    assertThat(actual.getEmail()).isEqualTo(expected.getEmail());
+    assertThat(actual.getArea()).isEqualTo(expected.getArea());
+    assertThat(actual.getAge()).isEqualTo(expected.getAge());
+    assertThat(actual.getSex()).isEqualTo(expected.getSex());
 
   }
 
@@ -57,11 +61,13 @@ class StudentRepositoryTest {
     List<StudentCourse> actual = sut.searchStudentCourse(studentId);
 
     StudentCourse expected = new StudentCourse();
+    expected.setId("1");
     expected.setStudentId("1");
     expected.setCourseName("Javaコース");
 
-    assertEquals(expected.getStudentId(), actual.get(0).getStudentId());
-    assertEquals(expected.getCourseName(), actual.get(0).getCourseName());
+    assertThat(actual.get(0).getId()).isEqualTo(expected.getId());
+    assertThat(actual.get(0).getStudentId()).isEqualTo(expected.getStudentId());
+    assertThat(actual.get(0).getCourseName()).isEqualTo(expected.getCourseName());
   }
 
   @Test
