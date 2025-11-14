@@ -44,5 +44,6 @@ public interface StudentRepository {
   //受講生コース情報のコース名を更新
   //@Param studentsCourses 受講生コース情報
   void updateStudentCourse(StudentCourse studentCourse);
+
 }
 
