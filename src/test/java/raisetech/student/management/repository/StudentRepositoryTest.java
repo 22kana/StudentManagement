@@ -1,10 +1,13 @@
 package raisetech.student.management.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
+import jakarta.xml.bind.ValidationException;
 import java.time.LocalDateTime;
 import java.util.List;
+import org.apache.el.util.Validation;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +53,13 @@ class StudentRepositoryTest {
   }
 
   @Test
+  void 受講生の単一検索時検索対象が見つからない時に空を返すこと(){
+    String id = "99";
+    Student actual = sut.searchStudent(id);
+    assertThat(actual).isNull();
+  }
+
+  @Test
   void 受講生のコース情報の全件検索が行えること(){
     List<StudentCourse> actual = sut.searchStudentCourseList();
     assertThat(actual.size()).isEqualTo(7);
@@ -68,6 +78,13 @@ class StudentRepositoryTest {
     assertThat(actual.get(0).getId()).isEqualTo(expected.getId());
     assertThat(actual.get(0).getStudentId()).isEqualTo(expected.getStudentId());
     assertThat(actual.get(0).getCourseName()).isEqualTo(expected.getCourseName());
+  }
+
+  @Test
+  void 受講生IDに紐づく受講生コース情報の検索時検索対象が見つからない時に空を返すこと(){
+    String studentId = "99";
+    List<StudentCourse> actual = sut.searchStudentCourse(studentId);
+    assertThat(actual).isEmpty();
   }
 
   @Test
@@ -128,6 +145,28 @@ class StudentRepositoryTest {
   }
 
   @Test
+  void 受講生情報の更新時に対象が見つからない時空を返すこと(){
+
+    Student student = new Student();
+    student.setId("99");
+    student.setName("山田太郎");
+    student.setKanaName("ヤマダタロウ");
+    student.setNickname("タロウ");
+    student.setEmail("taro@example.com");
+    student.setArea("東京");
+    student.setAge(30);
+    student.setSex("男");
+    student.setRemark("");
+    student.setDeleted(false);
+
+    sut.updateStudent(student);
+
+    Student actual = sut.searchStudent("99");
+
+    assertThat(actual).isNull();
+  }
+
+  @Test
   void 受講生コース情報の更新が行えること(){
 
     StudentCourse studentCourse = new StudentCourse();
@@ -140,6 +179,22 @@ class StudentRepositoryTest {
     List<StudentCourse> actual = sut.searchStudentCourse("1");
 
     assertThat(actual.get(0).getCourseName()).isEqualTo("AWSコース");
+
+  }
+
+  @Test
+  void 受講生コース情報の更新時に対象が見つからない時空を返すこと(){
+
+    StudentCourse studentCourse = new StudentCourse();
+    studentCourse.setId("1");
+    studentCourse.setStudentId("99");
+    studentCourse.setCourseName("AWSコース");
+
+    sut.updateStudentCourse(studentCourse);
+
+    List<StudentCourse> actual = sut.searchStudentCourse("99");
+
+    assertThat(actual).isEmpty();
 
   }
 
